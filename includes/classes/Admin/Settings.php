@@ -222,7 +222,7 @@ class BoilerplateSettings {
 	}
 	
 	public function render_boilerplate_settings_page() {
-		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
 		
 		if ( ! empty( $this->settings[ $current_page ] ) ) {
 			$settings = $this->settings[ $current_page ];
@@ -245,7 +245,7 @@ class BoilerplateSettings {
 	public function add_tabs() {
 		echo'<h2 class="nav-tab-wrapper">' . "\n";
 
-		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
 		foreach ( $this->settings as $key => $section ) {
 			$url = admin_url( '/admin.php?page=' . $key );
 			$title = $section['tab_title'];
