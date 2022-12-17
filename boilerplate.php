@@ -3,10 +3,10 @@
  * Plugin Name: Plugin Boilerplate
  * Version: 1.0.0
  * Description: This is a boilerplate for your next WordPress plugin.
- * Author: Zencode
- * Author URI: https://www.zencode.dk/
+ * Author: Kodesmeden
+ * Author URI: https://kodesmeden.dk/
  * Requires at least: 5.0
- * Tested up to: 5.7
+ * Tested up to: 6.2
  *
  * Text Domain: boilerplate
  * Domain Path: /lang/
