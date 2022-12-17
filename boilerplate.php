@@ -32,12 +32,25 @@ require_once( __DIR__ . '/includes/init.php' );
 // Add plugin action links
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'boilerplate_action_links' );
 function boilerplate_action_links( $links ) {
-	$button_style = 'background: slategrey;color: #fff;padding: 1px 5px 3px;border-radius: 3px;';
-	
 	$links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=boilerplate-settings' ) ) . '">' . __( 'Settings', 'boilerplate' ) . '</a>';
-	$links[] = '<a href="https://kodesmeden.dk/" target="_blank" style="' . esc_attr( $button_style ) . '">' . __( 'Visit the author', 'boilerplate' ) . '</a>';
 	
 	return $links;
+}
+
+// Add plugin meta links
+add_filter( 'plugin_row_meta' , 'boilerplate_meta_links', 10, 2 );
+function boilerplate_meta_links( $plugin_meta, $plugin_file ) {
+	if ( $plugin_file === plugin_basename( BOILERPLATE_FILE ) ) {
+		$plugin_version_style = 'background: #708090; color: #fff; padding: 4px 8px 6px; border-radius: 4px; user-select: none';
+		$author_link_style = 'background: #f8a717; color: #444; padding: 4px 8px 6px; border-radius: 4px;';
+		
+		$plugin_meta = [
+			'<span style="' . esc_attr( $plugin_version_style ) . '">' . __( 'Version', 'boilerplate' ) . ' ' . BOILERPLATE_VERSION . '</span>
+			<a href="https://kodesmeden.dk/?utm_source=' . parse_url( home_url(), PHP_URL_HOST ) . '&utm_medium=referral" target="_blank" style="' . esc_attr( $author_link_style ) . '"><span class="dashicons dashicons-external"></span> ' . __( 'Visit Kodesmeden', 'boilerplate' ) . '</a>',
+		];
+	}
+     
+    return $plugin_meta;
 }
 
 // Load classes
