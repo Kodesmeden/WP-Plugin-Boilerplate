@@ -4,4 +4,4 @@ Like so many others... This WordPress plugin boilerplate is my own take of what 
 
 Functionality will be added and updated from time to time. But for now - Enjoy!
 
-Cheers, [Daniel](https://kodesmeden.dk)
+Cheers, [Kodesmeden](https://kodesmeden.dk)
