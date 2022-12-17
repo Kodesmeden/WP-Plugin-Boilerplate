@@ -6,7 +6,7 @@
  * Author: Kodesmeden
  * Author URI: https://kodesmeden.dk/
  * Requires at least: 5.0
- * Tested up to: 6.2
+ * Tested up to: 6.1.1
  *
  * Text Domain: boilerplate
  * Domain Path: /lang/
