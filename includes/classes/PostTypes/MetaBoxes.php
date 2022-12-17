@@ -3,10 +3,6 @@
 class BoilerplateMetaBoxes {
 
     public function __construct() {
-		$this->init();
-    }
-	
-	public function init() {
 		if ( is_admin() ) {
             add_action( 'load-post.php', [ $this, 'init_metaboxes' ] );
             add_action( 'load-post-new.php', [ $this, 'init_metaboxes' ] );

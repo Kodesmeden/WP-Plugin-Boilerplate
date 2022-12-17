@@ -3,15 +3,11 @@
 class BoilerplateTaxonomies {
 	
 	public function __construct() {
-		$this->init();
-	}
-	
-	public function init() {
 		add_action( 'init', [ $this, 'load_taxonomies' ] );
 	}
 	
 	public function register_taxonomy( $taxonomy, $single, $plural, $post_types = [], $options = [] ) {
-		$labels = array(
+		$labels = [
 			'name'                       => $plural,
 			'single_name'                => $single,
 			'menu_name'                  => $plural,
@@ -29,9 +25,9 @@ class BoilerplateTaxonomies {
 			'add_or_remove_items'        => sprintf( __( 'Add or remove %s', 'wordpress-plugin-template' ), strtolower( $plural ) ),
 			'choose_from_most_used'      => sprintf( __( 'Choose from the most used %s', 'wordpress-plugin-template' ), strtolower( $plural ) ),
 			'not_found'                  => sprintf( __( 'No %s found', 'wordpress-plugin-template' ), strtolower( $plural ) ),
-		);
+		];
 		//phpcs:enable
-		$args = array(
+		$args = [
 			'label'                 => $plural,
 			'labels'                => $labels,
 			'hierarchical'          => true,
@@ -48,7 +44,7 @@ class BoilerplateTaxonomies {
 			'rest_controller_class' => 'WP_REST_Terms_Controller',
 			'query_var'             => $taxonomy,
 			'rewrite'               => true,
-		);
+		];
 
 		$args = array_merge( $args, $options );
 
