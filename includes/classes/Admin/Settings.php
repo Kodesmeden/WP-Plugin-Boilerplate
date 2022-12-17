@@ -284,7 +284,7 @@ class BoilerplateSettings {
 					}
 					
 					register_setting( $location, $field['id'] );
-					add_settings_field( $field['id'], $field['label'], [ $this, 'render_settings_field' ], $location, $group_id, $field );
+					add_settings_field( $field['id'], ( $field['label'] ?? '' ), [ $this, 'render_settings_field' ], $location, $group_id, $field );
 				}
 			}
 		}
