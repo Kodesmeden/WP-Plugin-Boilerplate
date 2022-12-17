@@ -1,11 +1,11 @@
-# Copyright (C) 2021 Plugin Boilerplate
+# Copyright (C) 2022 WP Plugin Boilerplate
 msgid ""
 msgstr ""
-"Project-Id-Version: Plugin Boilerplate 1.0.0\n"
-"Report-Msgid-Bugs-To: https://www.zencode.dk/\n"
+"Project-Id-Version: WP Plugin Boilerplate 1.0.0\n"
+"Report-Msgid-Bugs-To: https://kodesmeden.dk/\n"
 "POT-Creation-Date: 2022-12-17 12:16+0100\n"
 "PO-Revision-Date: 2022-12-17 12:16+0100\n"
-"Last-Translator: \n"
+"Last-Translator: Daniel S. Nielsen\n"
 "Language-Team: \n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
