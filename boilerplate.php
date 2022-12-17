@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Plugin Boilerplate
+ * Plugin Name: Plugin Boilerplate by Kodesmeden
  * Version: 1.0.0
- * Description: This is a boilerplate for your next WordPress plugin.
+ * Description: Simple and powerful boilerplate for your next WordPress plugin.
  * Author: Kodesmeden
  * Author URI: https://kodesmeden.dk/
  * Requires at least: 5.0
@@ -30,12 +30,12 @@ load_plugin_textdomain( 'boilerplate', false, dirname( plugin_basename( __FILE__
 require_once( __DIR__ . '/includes/init.php' );
 
 // Add plugin action links
-add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'my_plugin_action_links' );
-function my_plugin_action_links( $links ) {
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'boilerplate_action_links' );
+function boilerplate_action_links( $links ) {
 	$button_style = 'background: slategrey;color: #fff;padding: 1px 5px 3px;border-radius: 3px;';
 	
 	$links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=boilerplate-settings' ) ) . '">' . __( 'Settings', 'boilerplate' ) . '</a>';
-	$links[] = '<a href="https://kodesmeden.dk/" target="_blank" style="' . $button_style . '">' . __( 'Visit the author', 'boilerplate' ) . '</a>';
+	$links[] = '<a href="https://kodesmeden.dk/" target="_blank" style="' . esc_attr( $button_style ) . '">' . __( 'Visit the author', 'boilerplate' ) . '</a>';
 	
 	return $links;
 }

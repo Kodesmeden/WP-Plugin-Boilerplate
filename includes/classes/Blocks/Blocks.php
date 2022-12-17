@@ -3,10 +3,6 @@
 class BoilerplateBlocks {
 	
 	public function __construct() {
-		$this->init();
-	}
-	
-	public function init() {
 		add_action( 'acf/init', [ $this, 'register_blocks' ] );
 		add_filter( 'block_categories', [ $this, 'register_categories' ], 10, 2 );
 	}

@@ -3,16 +3,12 @@
 class BoilerplatePostTypes {
 	
 	public function __construct() {
-		$this->init();
-	}
-	
-	public function init() {
 		add_action( 'init', [ $this, 'load_post_types' ] );
 		add_filter( 'enter_title_here', [ $this, 'change_title_text' ] );
 	}
 	
 	public function register_post_type( $post_type, $single, $plural, $options = [] ) {
-		$labels = array(
+		$labels = [
 			'name'                  => $plural,
 			'menu_name'             => $plural,
 			'single_name'         => $single,
@@ -37,9 +33,9 @@ class BoilerplatePostTypes {
 			'filter_items_list'     => sprintf( _x( 'Filter %s list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'boilerplate' ), strtolower( $plural ) ),
 			'items_list_navigation' => sprintf( _x( '%s list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'boilerplate' ), $plural ),
 			'items_list'            => sprintf( _x( '%s list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'boilerplate' ), $plural ),
-		);
+		];
 	 
-		$args = array(
+		$args = [
 			'labels'                => $labels,
 			'public'                => true,
 			'publicly_queryable'    => true,
@@ -59,7 +55,7 @@ class BoilerplatePostTypes {
 			'menu_icon'			    => 'dashicons-admin-post',
 			'supports'              => [ 'title', 'editor', 'excerpt', 'comments', 'revisions', 'author', 'thumbnail', 'custom-fields' ],
 			'menu_position'         => 5,
-		);
+		];
 		
 		$args = array_merge( $args, $options );
 	 

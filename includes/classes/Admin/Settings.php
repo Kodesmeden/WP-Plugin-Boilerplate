@@ -6,10 +6,6 @@ class BoilerplateSettings {
 	public $settings = [];
 	
 	public function __construct() {
-		$this->init();
-	}
-	
-	public function init() {
 		$this->settings = $this->get_settings();
 		
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
@@ -25,18 +21,18 @@ class BoilerplateSettings {
 		wp_enqueue_media();
 		
 		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_style( 'boilerplate', $boilerplate_assets . '/css/admin.css', array(), BOILERPLATE_VERSION );
+		wp_enqueue_style( 'boilerplate', $boilerplate_assets . '/css/admin.min.css', [], BOILERPLATE_VERSION );
 		wp_enqueue_style( 'select2', $cdnjs_assets . '/select2/4.0.13/css/select2.min.css', false, BOILERPLATE_VERSION );
 		
-		wp_register_script( 'boilerplate', $boilerplate_assets . '/js/admin.js', array( 'jquery' ), BOILERPLATE_VERSION, true );
+		wp_register_script( 'boilerplate', $boilerplate_assets . '/js/admin.min.js', [ 'jquery' ], BOILERPLATE_VERSION, true );
 		wp_localize_script( 'boilerplate', 'meta_image',
-			array(
+			[
 				'title' => __( 'Choose or Upload Media', 'boilerplate' ),
 				'button' => __( 'Use this image', 'boilerplate' ),
-			)
+			]
 		);
 		
-		wp_enqueue_script( 'select2', $cdnjs_assets . '/select2/4.0.13/js/select2.min.js', array( 'jquery' ), BOILERPLATE_VERSION, true );
+		wp_enqueue_script( 'select2', $cdnjs_assets . '/select2/4.0.13/js/select2.min.js', [ 'jquery' ], BOILERPLATE_VERSION, true );
 		wp_enqueue_script( 'wp-color-picker' );
 		wp_enqueue_script( 'boilerplate' );
 	}
@@ -119,7 +115,8 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_message',
 							'type' => 'message',
-							'description' => '',
+							'label' => __( 'Message Field', 'boilerplate' ),
+							'description' => __( 'Label is optional...', 'boilerplate' ),
 						],
 					],
 				],
