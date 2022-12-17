@@ -35,7 +35,7 @@ function my_plugin_action_links( $links ) {
 	$button_style = 'background: slategrey;color: #fff;padding: 1px 5px 3px;border-radius: 3px;';
 	
 	$links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=boilerplate-settings' ) ) . '">' . __( 'Settings', 'boilerplate' ) . '</a>';
-	$links[] = '<a href="https://dsnielsen.dk/" target="_blank" style="' . $button_style . '">' . __( 'Visit the author', 'boilerplate' ) . '</a>';
+	$links[] = '<a href="https://kodesmeden.dk/" target="_blank" style="' . $button_style . '">' . __( 'Visit the author', 'boilerplate' ) . '</a>';
 	
 	return $links;
 }
