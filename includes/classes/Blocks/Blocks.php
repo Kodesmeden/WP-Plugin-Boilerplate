@@ -4,7 +4,7 @@ class BoilerplateBlocks {
 	
 	public function __construct() {
 		add_action( 'acf/init', [ $this, 'register_blocks' ] );
-		add_filter( 'block_categories', [ $this, 'register_categories' ], 10, 2 );
+		add_filter( 'block_categories_all', [ $this, 'register_categories' ], 10, 2 );
 	}
 	
 	public function register_blocks() {
