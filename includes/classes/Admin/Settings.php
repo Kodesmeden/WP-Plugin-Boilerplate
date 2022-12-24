@@ -278,7 +278,7 @@ class BoilerplateSettings {
 				$description_callback = $group['description'] ?? '__return_empty_string';
 				$fields = $group['fields'];
 				
-				add_settings_section( $group_id, $group_title, $description_callback, $location, [ 'before_section' => '<div class="postbox ksseo"><div class="inside">', 'after_section' => '</div></div>' ] );
+				add_settings_section( $group_id, $group_title, $description_callback, $location, [ 'before_section' => '<div class="postbox boilerplate"><div class="inside">', 'after_section' => '</div></div>' ] );
 				
 				foreach ( $fields as $field ) {
 					if (! is_array($field)) {
