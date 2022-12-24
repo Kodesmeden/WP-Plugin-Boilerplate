@@ -76,6 +76,14 @@ class BoilerplateSettings {
 							'default' => '1', // If not empty, this is checked by default
 						],
 						[
+							'id' => 'disabled_checkbox',
+							'type' => 'checkbox',
+							'label' => __( 'Disabled Checkbox Field', 'boilerplate' ),
+							'description' => 'Description is the field label here.',
+							'default' => '0', // If not empty, this is checked by default
+							'disabled' => true,
+						],
+						[
 							'id' => 'custom_radio',
 							'type' => 'radio',
 							'label' => __( 'Radio Field', 'boilerplate' ),
@@ -139,8 +147,8 @@ class BoilerplateSettings {
 							'description' => __( 'Image uploads through the media library.', 'boilerplate' ),
 						],
 						[
-							'id' => 'custom_multi_checkbox',
-							'type' => 'checkbox_multi',
+							'id' => 'custom_checkbox_group',
+							'type' => 'checkbox_group',
 							'label' => __( 'Multi Checkbox Field', 'boilerplate' ),
 							'description' => __( 'Default value can be either a single option, or an array of options', 'boilerplate' ),
 							'options' => [
@@ -183,9 +191,9 @@ class BoilerplateSettings {
 							],
 						],
 						[
-							'id' => 'custom_general_wysiwyg',
-							'type' => 'wysiwyg',
-							'label' => __( 'Wysiwyg Field', 'boilerplate' ),
+							'id' => 'custom_editor',
+							'type' => 'editor',
+							'label' => __( 'Editor Field', 'boilerplate' ),
 							'description' => __( 'This is the full featured WordPress editor you know.', 'boilerplate' ),
 							'default' => '',
 						],
@@ -222,7 +230,7 @@ class BoilerplateSettings {
 	}
 	
 	public function render_boilerplate_settings_page() {
-		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
 		
 		if ( ! empty( $this->settings[ $current_page ] ) ) {
 			$settings = $this->settings[ $current_page ];
@@ -245,7 +253,7 @@ class BoilerplateSettings {
 	public function add_tabs() {
 		echo'<h2 class="nav-tab-wrapper">' . "\n";
 
-		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
 		foreach ( $this->settings as $key => $section ) {
 			$url = admin_url( '/admin.php?page=' . $key );
 			$title = $section['tab_title'];
@@ -270,9 +278,13 @@ class BoilerplateSettings {
 				$description_callback = $group['description'] ?? '__return_empty_string';
 				$fields = $group['fields'];
 				
-				add_settings_section( $group_id, $group_title, $description_callback, $location );
+				add_settings_section( $group_id, $group_title, $description_callback, $location, [ 'before_section' => '<div class="postbox boilerplate"><div class="inside">', 'after_section' => '</div></div>' ] );
 				
 				foreach ( $fields as $field ) {
+					if (! is_array($field)) {
+						var_dump($field);
+						die();
+					}
 					if ( empty( $field['id'] ) ) {
 						$id = md5( ( ! empty( $field['description'] ) ? $field['description'] : $field['type'] ) . microtime( true ) );
 						$field['id'] = $this->option_prefix . $id;
@@ -293,8 +305,37 @@ class BoilerplateSettings {
 				echo '<fieldset>';
 				
 				$default = get_option( $field['id'], $field['default'] );
+				$disabled = (bool) ( $field['disabled'] ?? false );
 				
-				echo '<label for="' . esc_attr( $field['id'] ) . '"><input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="checkbox" value="1"' . ( ! empty( $default ) ? ' checked' : '' ) . '> ' . esc_html( $field['description'] ) . '</label>';
+				echo '<label for="' . esc_attr( $field['id'] ) . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="checkbox" value="1"' . ( ! empty( $default ) ? ' checked' : '' ) . ( ! empty( $disabled ) ? ' disabled' : '' ) . '><span class="slider"></span></label>' . $field['description'];
+				
+				echo '</fieldset>';
+				
+				break;
+			case 'checkbox_group':
+			case 'checkbox_multi':
+				echo '<fieldset>';
+				
+				if ( ! empty( $field['options'] ) ) {
+					$default = get_option( $field['id'], $field['default'] );
+					
+					if ( ! is_array( $default ) ) {
+						$default = [ $default ];
+					}
+					
+					$i = 0;
+					foreach ( $field['options'] as $key => $label ) {
+						if ( ++$i > 1 ) {
+							echo '<br>';
+						}
+
+						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '[' . $key . ']" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="checkbox" value="1"' . ( ! empty( $default[ $key ] ) ? ' checked' : '' ) . '><span class="slider"></span></label>' . $label;
+					}
+				}
+				
+				if ( ! empty( $field['description'] ) ) {
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
+				}
 				
 				echo '</fieldset>';
 				
@@ -310,11 +351,11 @@ class BoilerplateSettings {
 				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="hidden" value="' . esc_attr( $image_id ) . '">
 				<style>#' . esc_attr( $field['id'] ) . '-preview .image img{margin-bottom: 10px;}</style>
 				<div id="' . esc_attr( $field['id'] ) . '-preview"><div class="image">' . $image_object . '</div></div>
-				<input class="upload-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Choose image', 'boilerplate' ) . '">
-				<input class="remove-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Remove image', 'boilerplate' ) . '"' . ( empty( $image_id ) ? ' style="display: none;"' : '' ) . '>';
+				<input class="upload-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Choose image', 'kodesmeden' ) . '">
+				<input class="remove-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Remove image', 'kodesmeden' ) . '"' . ( empty( $image_id ) ? ' style="display: none;"' : '' ) . '>';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
@@ -325,14 +366,14 @@ class BoilerplateSettings {
 					$default = get_option( $field['id'], $field['default'] );
 					
 					foreach ( $field['options'] as $key => $value ) {
-						echo '<option value="' . esc_attr( $key ) . '"' . ( $key === $default ? ' selected' : '' ) . '>' . esc_html( $value ) . '</option>';
+						echo '<option value="' . esc_attr( $key ) . '"' . ( $key === $default ? ' selected' : '' ) . '>' . $value . '</option>';
 					}
 				}
 				
 				echo '</select>';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
@@ -354,7 +395,7 @@ class BoilerplateSettings {
 				echo '</select>';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
@@ -370,39 +411,12 @@ class BoilerplateSettings {
 							echo '<br>';
 						}
 						
-						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '"><input name="' . esc_attr( $field['id'] ) . '" id="' . $field['id'] . '-' . $i . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $key ) . '"' . ( $key === $default ? ' checked' : '' ) . '> ' . esc_html( $value ) . '</label>';
+						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '" id="' . $field['id'] . '-' . $i . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $key ) . '"' . ( $key === $default ? ' checked' : '' ) . '><span class="slider"></span></label>' . $value;
 					}
 				}
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
-				}
-				
-				echo '</fieldset>';
-				
-				break;
-			case 'checkbox_multi':
-				echo '<fieldset>';
-				
-				if ( ! empty( $field['options'] ) ) {
-					$default = get_option( $field['id'], $field['default'] );
-					
-					if ( ! is_array( $default ) ) {
-						$default = [ $default ];
-					}
-					
-					$i = 0;
-					foreach ( $field['options'] as $key => $value ) {
-						if ( ++$i > 1 ) {
-							echo '<br>';
-						}
-						
-						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '"><input name="' . esc_attr( $field['id'] ) . '[]" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="checkbox" value="' . $key . '"' . ( in_array( $key, $default ) ? ' checked' : '' ) . '> ' . esc_html( $value ) . '</label>';
-					}
-				}
-				
-				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				echo '</fieldset>';
@@ -414,7 +428,7 @@ class BoilerplateSettings {
 				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="text" value="' . esc_attr( $default ) . '" data-default-color="' . esc_attr( $default ) . '" class="regular-text color-picker">';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
@@ -424,7 +438,7 @@ class BoilerplateSettings {
 				echo '<textarea name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" rows="6" class="regular-text code">' . esc_html( $default ) . '</textarea>';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
@@ -438,7 +452,7 @@ class BoilerplateSettings {
 				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $default ) . '" min="' . esc_attr( $min ) . '"' . ( ! empty( $max ) ? ' max="' . esc_attr( $max ) . '"' : '' ) . ' step="' . esc_attr( $step ) . '" class="regular-text">';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
@@ -448,27 +462,28 @@ class BoilerplateSettings {
 				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $default ) . '" class="regular-text">';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
-			case 'wysiwyg':
+			case 'editor':
 				$default = get_option( $field['id'] );
 
 				wp_editor( $default, esc_attr( $field['id'] ) );
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				break;
 			case 'message':
 				if ( ! empty( $field['description'] ) ) {
-					echo '<div class="description">' . esc_html( $field['description'] ) . '</div>';
+					echo '<div class="description">' . $field['description'] . '</div>';
 				}
 				
 				break;
 			case 'text_group':
+			case 'text_multi':
 				echo '<fieldset>';
 				
 				if ( ! empty( $field['options'] ) ) {
@@ -482,13 +497,13 @@ class BoilerplateSettings {
 							echo '<br>';
 						}
 						
-						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="text-group">' . esc_html( $value ) . '</label>';
+						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="text-group">' . $value . '</label>';
 						echo '<input name="' . esc_attr( $field['id'] ) . '[' . $key . ']" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="text" value="' . esc_attr( $default ) . '" class="regular-text">';
 					}
 				}
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 				
 				echo '</fieldset>';
@@ -500,7 +515,7 @@ class BoilerplateSettings {
 				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $default ) . '" class="regular-text">';
 				
 				if ( ! empty( $field['description'] ) ) {
-					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . esc_html( $field['description'] ) . '</p>';
+					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 		}
 	}

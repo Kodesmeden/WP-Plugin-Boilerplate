@@ -33,7 +33,7 @@ class BoilerplateMetaBoxes {
     }
 
     public function save_metabox( $post_id, $post ) {
-        $nonce_name = filter_input( INPUT_POST, 'nonce_name', FILTER_SANITIZE_STRING );
+        $nonce_name = htmlspecialchars( filter_input( INPUT_POST, 'nonce_name' ) );
         $nonce_action = 'nonce_action';
 
         if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) ) {

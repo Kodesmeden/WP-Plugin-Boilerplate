@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Plugin Boilerplate 1.0.0\n"
 "Report-Msgid-Bugs-To: https://kodesmeden.dk/\n"
-"POT-Creation-Date: 2022-12-17 12:16+0100\n"
-"PO-Revision-Date: 2022-12-17 12:16+0100\n"
+"POT-Creation-Date: 2022-12-24 15:17+0100\n"
+"PO-Revision-Date: 2022-12-24 15:17+0100\n"
 "Last-Translator: Daniel S. Nielsen\n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -62,74 +62,78 @@ msgid "Checkbox Field"
 msgstr ""
 
 #: includes/classes/Admin/Settings.php:81
+msgid "Disabled Checkbox Field"
+msgstr ""
+
+#: includes/classes/Admin/Settings.php:89
 msgid "Radio Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:93
+#: includes/classes/Admin/Settings.php:101
 msgid "Select Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:105
+#: includes/classes/Admin/Settings.php:113
 msgid "Textarea Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:112
+#: includes/classes/Admin/Settings.php:120
 msgid "Password Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:118
+#: includes/classes/Admin/Settings.php:126
 msgid "Message Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:119
+#: includes/classes/Admin/Settings.php:127
 msgid "Label is optional..."
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:133
+#: includes/classes/Admin/Settings.php:141
 msgid "Advanced fields"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:138
+#: includes/classes/Admin/Settings.php:146
 msgid "Image Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:139
+#: includes/classes/Admin/Settings.php:147
 msgid "Image uploads through the media library."
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:144
+#: includes/classes/Admin/Settings.php:152
 msgid "Multi Checkbox Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:145
+#: includes/classes/Admin/Settings.php:153
 msgid "Default value can be either a single option, or an array of options"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:157
+#: includes/classes/Admin/Settings.php:165
 msgid "Multi Select Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:170
+#: includes/classes/Admin/Settings.php:178
 msgid "Color Picker Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:177
+#: includes/classes/Admin/Settings.php:185
 msgid "Text Group"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:188
-msgid "Wysiwyg Field"
+#: includes/classes/Admin/Settings.php:196
+msgid "Editor Field"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:189
+#: includes/classes/Admin/Settings.php:197
 msgid "This is the full featured WordPress editor you know."
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:313
+#: includes/classes/Admin/Settings.php:354
 msgid "Choose image"
 msgstr ""
 
-#: includes/classes/Admin/Settings.php:314
+#: includes/classes/Admin/Settings.php:355
 msgid "Remove image"
 msgstr ""
 
