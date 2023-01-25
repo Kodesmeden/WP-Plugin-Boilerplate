@@ -6,12 +6,17 @@ class BoilerplateSettings {
 	public $settings = [];
 	
 	public function __construct() {
-		$this->settings = $this->get_settings();
-		
+		add_action( 'admin_menu', [ $this, 'pre_render_settings' ] );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
 		add_action( 'admin_menu', [ $this, 'add_settings_menus' ] );
+
+		add_action( 'admin_notices', [ $this, 'show_updated_notice' ] );
 		
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+	}
+
+	public function pre_render_settings() {
+		$this->settings = $this->get_settings();
 	}
 	
 	public function enqueue_scripts() {
@@ -518,6 +523,28 @@ class BoilerplateSettings {
 					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
 		}
+	}
+
+	public function show_updated_notice() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$settings_pages = array_keys( $this->settings );
+		
+		$page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
+		if ( ! in_array( $page, $settings_pages ) ) {
+			return;
+		}
+		
+		$updated = filter_input( INPUT_GET, 'settings-updated' );
+		if ( empty( $updated ) ) {
+			return;
+		}
+		
+		echo '<div class="notice notice-success">
+			<p>' . __( 'Settings saved', 'boilerplate' ) . '</p>
+		</div>';
 	}
 	
 }
