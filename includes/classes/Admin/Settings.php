@@ -371,7 +371,7 @@ class BoilerplateSettings {
 					$default = get_option( $field['id'], $field['default'] );
 					
 					foreach ( $field['options'] as $key => $value ) {
-						echo '<option value="' . esc_attr( $key ) . '"' . ( $key === $default ? ' selected' : '' ) . '>' . $value . '</option>';
+						echo '<option value="' . esc_attr( $key ) . '"' . ( (string) $key === (string) $default ? ' selected' : '' ) . '>' . $value . '</option>';
 					}
 				}
 				
@@ -389,7 +389,7 @@ class BoilerplateSettings {
 					$default = get_option( $field['id'], $field['default'] );
 					
 					if ( ! is_array( $default ) ) {
-						$default = [ $default ];
+						$default = [ (string) $default ];
 					}
 					
 					foreach ( $field['options'] as $key => $value ) {
