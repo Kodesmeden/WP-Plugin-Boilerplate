@@ -334,7 +334,7 @@ class BoilerplateSettings {
 							echo '<br>';
 						}
 
-						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '[' . $key . ']" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="checkbox" value="1"' . ( ! empty( $default[ $key ] ) ? ' checked' : '' ) . '><span class="slider"></span></label>' . $label;
+						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '[' . $key . ']" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="checkbox" value="1"' . ( in_array( $key, $default ) ? ' checked' : '' ) . '><span class="slider"></span></label>' . $label;
 					}
 				}
 				
