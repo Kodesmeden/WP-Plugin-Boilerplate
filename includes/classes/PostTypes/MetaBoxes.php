@@ -17,7 +17,7 @@ class BoilerplateMetaBoxes {
     public function add_metaboxes() {
         add_meta_box(
             'ticket-meta-box',
-            __( 'Ticket Meta Box', 'boilerplate' ),
+            __( 'Ticket Meta Box', BOILERPLATE_TEXT_DOMAIN ),
             [ $this, 'render_metabox' ],
             'ticket', // Post type
             'advanced',

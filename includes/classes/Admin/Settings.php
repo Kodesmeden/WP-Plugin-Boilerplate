@@ -2,7 +2,7 @@
 
 class BoilerplateSettings {
 	
-	public $option_prefix = 'boilerplate_';
+	public $option_prefix = BOILERPLATE_TEXT_DOMAIN . '_';
 	public $settings = [];
 	
 	public function __construct() {
@@ -32,8 +32,8 @@ class BoilerplateSettings {
 		wp_register_script( 'boilerplate', $boilerplate_assets . '/js/admin.min.js', [ 'jquery' ], BOILERPLATE_VERSION, true );
 		wp_localize_script( 'boilerplate', 'meta_image',
 			[
-				'title' => __( 'Choose or Upload Media', 'boilerplate' ),
-				'button' => __( 'Use this image', 'boilerplate' ),
+				'title' => __( 'Choose or Upload Media', BOILERPLATE_TEXT_DOMAIN ),
+				'button' => __( 'Use this image', BOILERPLATE_TEXT_DOMAIN ),
 			]
 		);
 		
@@ -53,20 +53,20 @@ class BoilerplateSettings {
 			'tab_title' => 'Settings',
 			'groups' => [
 				[
-					'title' => __( 'Standard fields', 'boilerplate' ), // Leave title empty if you don't need it
+					'title' => __( 'Standard fields', BOILERPLATE_TEXT_DOMAIN ), // Leave title empty if you don't need it
 					// 'description' => [ $this, 'general_description' ], // Custom callback
 					'fields' => [
 						[
 							'id' => 'custom_text', // The $option_prefix will automatically be prepended to the id. So this option will become "boilerplate_custom_text" in the options table.
 							'type' => 'text',
-							'label' => __( 'Text Field', 'boilerplate' ),
-							'description' => __( 'Description of your field here. All fields can use descriptions.', 'boilerplate' ),
+							'label' => __( 'Text Field', BOILERPLATE_TEXT_DOMAIN ),
+							'description' => __( 'Description of your field here. All fields can use descriptions.', BOILERPLATE_TEXT_DOMAIN ),
 							'default' => 'Pre-filled text. This is not saved until you save it',
 						],
 						[
 							'id' => 'custom_number',
 							'type' => 'number',
-							'label' => __( 'Number Field', 'boilerplate' ),
+							'label' => __( 'Number Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'min' => '0',
 							'max' => '',
@@ -76,14 +76,14 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_checkbox',
 							'type' => 'checkbox',
-							'label' => __( 'Checkbox Field', 'boilerplate' ),
+							'label' => __( 'Checkbox Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => 'Description is the field label here.',
 							'default' => '1', // If not empty, this is checked by default
 						],
 						[
 							'id' => 'disabled_checkbox',
 							'type' => 'checkbox',
-							'label' => __( 'Disabled Checkbox Field', 'boilerplate' ),
+							'label' => __( 'Disabled Checkbox Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => 'Description is the field label here.',
 							'default' => '0', // If not empty, this is checked by default
 							'disabled' => true,
@@ -91,7 +91,7 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_radio',
 							'type' => 'radio',
-							'label' => __( 'Radio Field', 'boilerplate' ),
+							'label' => __( 'Radio Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'options' => [
 								'option1' => 'Option 1',
@@ -103,7 +103,7 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_select',
 							'type' => 'select',
-							'label' => __( 'Select Field', 'boilerplate' ),
+							'label' => __( 'Select Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'options' => [
 								'option1' => 'Option 1',
@@ -115,21 +115,21 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_textarea',
 							'type' => 'textarea',
-							'label' => __( 'Textarea Field', 'boilerplate' ),
+							'label' => __( 'Textarea Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'default' => '',
 						],
 						[
 							'id' => 'custom_password',
 							'type' => 'password',
-							'label' => __( 'Password Field', 'boilerplate' ),
+							'label' => __( 'Password Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 						],
 						[
 							'id' => 'custom_message',
 							'type' => 'message',
-							'label' => __( 'Message Field', 'boilerplate' ),
-							'description' => __( 'Label is optional...', 'boilerplate' ),
+							'label' => __( 'Message Field', BOILERPLATE_TEXT_DOMAIN ),
+							'description' => __( 'Label is optional...', BOILERPLATE_TEXT_DOMAIN ),
 						],
 					],
 				],
@@ -143,19 +143,19 @@ class BoilerplateSettings {
 			'tab_title' => 'Advanced',
 			'groups' => [
 				[
-					'title' => __( 'Advanced fields', 'boilerplate' ),
+					'title' => __( 'Advanced fields', BOILERPLATE_TEXT_DOMAIN ),
 					'fields' => [
 						[
 							'id' => 'custom_image',
 							'type' => 'image',
-							'label' => __( 'Image Field', 'boilerplate' ),
-							'description' => __( 'Image uploads through the media library.', 'boilerplate' ),
+							'label' => __( 'Image Field', BOILERPLATE_TEXT_DOMAIN ),
+							'description' => __( 'Image uploads through the media library.', BOILERPLATE_TEXT_DOMAIN ),
 						],
 						[
 							'id' => 'custom_checkbox_group',
 							'type' => 'checkbox_group',
-							'label' => __( 'Multi Checkbox Field', 'boilerplate' ),
-							'description' => __( 'Default value can be either a single option, or an array of options', 'boilerplate' ),
+							'label' => __( 'Multi Checkbox Field', BOILERPLATE_TEXT_DOMAIN ),
+							'description' => __( 'Default value can be either a single option, or an array of options', BOILERPLATE_TEXT_DOMAIN ),
 							'options' => [
 								'option1' => 'Option 1',
 								'option2' => 'Option 2',
@@ -167,7 +167,7 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_multi_select',
 							'type' => 'select_multi',
-							'label' => __( 'Multi Select Field', 'boilerplate' ),
+							'label' => __( 'Multi Select Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'options' => [
 								'option1' => 'Option 1',
@@ -180,14 +180,14 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_color_picker',
 							'type' => 'color',
-							'label' => __( 'Color Picker Field', 'boilerplate' ),
+							'label' => __( 'Color Picker Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'default' => '#303030',
 						],
 						[
 							'id' => 'custom_text_group',
 							'type' => 'text_group',
-							'label' => __( 'Text Group', 'zencode' ),
+							'label' => __( 'Text Group', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
 							'options' => [
 								'field_1' => 'Field 1',
@@ -198,8 +198,8 @@ class BoilerplateSettings {
 						[
 							'id' => 'custom_editor',
 							'type' => 'editor',
-							'label' => __( 'Editor Field', 'boilerplate' ),
-							'description' => __( 'This is the full featured WordPress editor you know.', 'boilerplate' ),
+							'label' => __( 'Editor Field', BOILERPLATE_TEXT_DOMAIN ),
+							'description' => __( 'This is the full featured WordPress editor you know.', BOILERPLATE_TEXT_DOMAIN ),
 							'default' => '',
 						],
 					],
@@ -318,7 +318,6 @@ class BoilerplateSettings {
 				
 				break;
 			case 'checkbox_group':
-			case 'checkbox_multi':
 				echo '<fieldset>';
 				
 				if ( ! empty( $field['options'] ) ) {
@@ -356,8 +355,8 @@ class BoilerplateSettings {
 				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="hidden" value="' . esc_attr( $image_id ) . '">
 				<style>#' . esc_attr( $field['id'] ) . '-preview .image img{margin-bottom: 10px;}</style>
 				<div id="' . esc_attr( $field['id'] ) . '-preview"><div class="image">' . $image_object . '</div></div>
-				<input class="upload-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Choose image', 'kodesmeden' ) . '">
-				<input class="remove-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Remove image', 'kodesmeden' ) . '"' . ( empty( $image_id ) ? ' style="display: none;"' : '' ) . '>';
+				<input class="upload-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Choose image', BOILERPLATE_TEXT_DOMAIN ) . '">
+				<input class="remove-image button" type="button" data-id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr__( 'Remove image', BOILERPLATE_TEXT_DOMAIN ) . '"' . ( empty( $image_id ) ? ' style="display: none;"' : '' ) . '>';
 				
 				if ( ! empty( $field['description'] ) ) {
 					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
@@ -488,7 +487,6 @@ class BoilerplateSettings {
 				
 				break;
 			case 'text_group':
-			case 'text_multi':
 				echo '<fieldset>';
 				
 				if ( ! empty( $field['options'] ) ) {
@@ -543,7 +541,7 @@ class BoilerplateSettings {
 		}
 		
 		echo '<div class="notice notice-success">
-			<p>' . __( 'Settings saved', 'boilerplate' ) . '</p>
+			<p>' . __( 'Settings saved', BOILERPLATE_TEXT_DOMAIN ) . '</p>
 		</div>';
 	}
 	
