@@ -8,10 +8,11 @@ class BoilerplateSettings {
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'pre_render_settings' ] );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_action( 'admin_init', [ $this, 'purge_option' ] );
 		add_action( 'admin_menu', [ $this, 'add_settings_menus' ] );
 
 		add_action( 'admin_notices', [ $this, 'show_updated_notice' ] );
-		
+		add_filter( 'pre_update_option', [ $this, 'skip_password_fields' ], 10, 3 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
@@ -124,6 +125,10 @@ class BoilerplateSettings {
 							'type' => 'password',
 							'label' => __( 'Password Field', BOILERPLATE_TEXT_DOMAIN ),
 							'description' => '',
+							'default' => '',
+							'purge_button' => true,
+							'purge_button_text' => __( 'Remove Password', BOILERPLATE_TEXT_DOMAIN ),
+							'confirm_dialog' => __( 'Are you sure you want to remove the password?', BOILERPLATE_TEXT_DOMAIN ),
 						],
 						[
 							'id' => 'custom_message',
@@ -235,7 +240,7 @@ class BoilerplateSettings {
 	}
 	
 	public function render_boilerplate_settings_page() {
-		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
+		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) ?: '' );
 		
 		if ( ! empty( $this->settings[ $current_page ] ) ) {
 			$settings = $this->settings[ $current_page ];
@@ -258,7 +263,7 @@ class BoilerplateSettings {
 	public function add_tabs() {
 		echo'<h2 class="nav-tab-wrapper">' . "\n";
 
-		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
+		$current_page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) ?: '' );
 		foreach ( $this->settings as $key => $section ) {
 			$url = admin_url( '/admin.php?page=' . $key );
 			$title = $section['tab_title'];
@@ -333,7 +338,7 @@ class BoilerplateSettings {
 							echo '<br>';
 						}
 
-						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '[' . $key . ']" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="checkbox" value="1"' . ( in_array( $key, $default ) ? ' checked' : '' ) . '><span class="slider"></span></label>' . $label;
+						echo '<label for="' . esc_attr( $field['id'] ) . '-' . $i . '" class="check-switch"><input name="' . esc_attr( $field['id'] ) . '[' . $key . ']" id="' . esc_attr( $field['id'] ) . '-' . $i . '" type="checkbox" value="1"' . ( in_array( $key, $default ) || ! empty( $default[ $key ] ) ? ' checked' : '' ) . '><span class="slider"></span></label>' . $label;
 					}
 				}
 				
@@ -461,10 +466,24 @@ class BoilerplateSettings {
 				
 				break;
 			case 'password':
-				$default = get_option( $field['id'] );
+				$default = esc_attr( get_option( $field['id'] ) );
+				$placeholder = $field['placeholder'] ?? '';
+				$purge_button = (bool) ( $field['purge_button'] ?? true );
+				$purge_button_text = $field['purge_button_text'] ?? __( 'Purge', BOILERPLATE_TEXT_DOMAIN );
+				$confirm_dialog = $field['confirm_dialog'] ?? __( 'Are you sure?', BOILERPLATE_TEXT_DOMAIN );
 				
-				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" value="' . esc_attr( $default ) . '" class="regular-text">';
+				$params = '';
+				if ( ! empty( $default ) ) {
+					$default = str_repeat( '*', mb_strlen( $default ) );
+					$params = ' readonly="readonly" style="pointer-events: none"';
+				}
+
+				echo '<input name="' . esc_attr( $field['id'] ) . '" id="' . esc_attr( $field['id'] ) . '" type="' . esc_attr( $field['type'] ) . '" value="' . $default . '" placeholder="' . esc_attr( $placeholder ) . '" class="regular-text" autocomplete="off"' . $params . '>';
 				
+				if ( ! empty( $default ) && $purge_button ) {
+					echo '<a href="#" class="button button-primary purge" data-confirm="' . $confirm_dialog . '">' . $purge_button_text . '</a>';
+				}
+
 				if ( ! empty( $field['description'] ) ) {
 					echo '<p class="description" id="' . esc_attr( $field['id'] ) . '-description">' . $field['description'] . '</p>';
 				}
@@ -523,6 +542,32 @@ class BoilerplateSettings {
 		}
 	}
 
+	public function skip_password_fields( $value, $option, $old_value ) {
+		if ( is_string( $value ) ) {
+			$value_length = mb_strlen( $value );
+
+			if ( $value === str_repeat( '*', $value_length ) ) {
+				$value = $old_value;
+			}
+		}
+
+		return $value;
+	}
+	
+	public function purge_option() {
+		$action = filter_input( INPUT_POST, 'action' );
+
+		if ( $action !== 'purge-option' ) {
+			return;
+		}
+
+		$option = htmlspecialchars( filter_input( INPUT_POST, 'option' ) );
+		$deleted = (bool) delete_option( $option );
+		$message = ! $deleted ? __( 'We were unable to remove the value.', BOILERPLATE_TEXT_DOMAIN ) : '';
+
+		wp_send_json( [ 'success' => $deleted, 'message' => $message ] );
+	}
+
 	public function show_updated_notice() {
 		if ( ! is_admin() ) {
 			return;
@@ -530,7 +575,7 @@ class BoilerplateSettings {
 
 		$settings_pages = array_keys( $this->settings );
 		
-		$page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) );
+		$page = htmlspecialchars( filter_input( INPUT_GET, 'page' ) ?: '' );
 		if ( ! in_array( $page, $settings_pages ) ) {
 			return;
 		}
