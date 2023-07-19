@@ -51,5 +51,40 @@ jQuery( document ).ready( function( $ ) {
 	$( '.color-picker' ).wpColorPicker();
 	
 	$( 'select.styled-select' ).select2();
+
+	if ( $('a.button.purge').length > 0 ) {
+		$('a.button.purge').on('click', function (e) {
+			var $this = $(this);
+			e.preventDefault();
+
+			$this.prop('disabled', true);
+
+			var confirmation = $this.data('confirm');
+			if (typeof confirmation !== 'undefined') {
+				if (!confirm(confirmation)) {
+					$this.prop('disabled', false);
+					return;
+				}
+			}
+
+			var input = $this.prev('input');
+			var option = input.attr( 'id' );
+
+			$.ajax({
+				type: 'POST',
+				data: {
+					action: 'purge-option',
+					option: option
+				}
+			}).done(function (response) {
+				if (response.success) {
+					window.location.reload();
+				} else {
+					alert(response.message);
+					$this.prop('disabled', false);
+				}
+			});
+		});
+	}
 	
 } );

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Plugin Boilerplate by Kodesmeden
  * Version: 1.0.0
- * Description: Simple and powerful boilerplate for your next WordPress plugin.
+ * Description: Simple and powerful boilerplate for your next WordPress plugin. Simply rename plugin file, language file and do a global search/replace and you're ready to go!
  * Author: Kodesmeden
  * Author URI: https://kodesmeden.dk/
  * Requires at least: 5.0
@@ -22,9 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'BOILERPLATE_FILE', __FILE__ );
 define( 'BOILERPLATE_VERSION', '1.0.0' );
+define( 'BOILERPLATE_TEXT_DOMAIN', 'boilerplate' ); // This also works as the settings prefix
 
 // Load language early
-load_plugin_textdomain( 'boilerplate', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+load_plugin_textdomain( BOILERPLATE_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 // Initialize Plugin
 require_once( __DIR__ . '/includes/init.php' );
@@ -32,7 +33,7 @@ require_once( __DIR__ . '/includes/init.php' );
 // Add plugin action links
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'boilerplate_action_links' );
 function boilerplate_action_links( $links ) {
-	$links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=boilerplate-settings' ) ) . '">' . __( 'Settings', 'boilerplate' ) . '</a>';
+	$links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=boilerplate-settings' ) ) . '">' . __( 'Settings', BOILERPLATE_TEXT_DOMAIN ) . '</a>';
 	
 	return $links;
 }
@@ -45,8 +46,8 @@ function boilerplate_meta_links( $plugin_meta, $plugin_file ) {
 		$author_link_style = 'background: #f8a717; color: #444; padding: 4px 8px 6px; border-radius: 4px;';
 		
 		$plugin_meta = [
-			'<span style="' . esc_attr( $plugin_version_style ) . '">' . __( 'Version', 'boilerplate' ) . ' ' . BOILERPLATE_VERSION . '</span>
-			<a href="https://kodesmeden.dk/?utm_source=' . parse_url( home_url(), PHP_URL_HOST ) . '&utm_medium=referral" target="_blank" style="' . esc_attr( $author_link_style ) . '"><span class="dashicons dashicons-external"></span> ' . __( 'Visit Kodesmeden', 'boilerplate' ) . '</a>',
+			'<span style="' . esc_attr( $plugin_version_style ) . '">' . __( 'Version', BOILERPLATE_TEXT_DOMAIN ) . ' ' . BOILERPLATE_VERSION . '</span>
+			<a href="https://kodesmeden.dk/?utm_source=' . parse_url( home_url(), PHP_URL_HOST ) . '&utm_medium=referral" target="_blank" style="' . esc_attr( $author_link_style ) . '"><span class="dashicons dashicons-external"></span> ' . __( 'Visit Kodesmeden', BOILERPLATE_TEXT_DOMAIN ) . '</a>',
 		];
 	}
      

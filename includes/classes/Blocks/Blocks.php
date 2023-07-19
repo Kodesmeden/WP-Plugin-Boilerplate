@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Switch with native block
+
 class BoilerplateBlocks {
 	
 	public function __construct() {
@@ -11,8 +13,8 @@ class BoilerplateBlocks {
 		if ( function_exists( 'acf_register_block_type' ) ) {
 			acf_register_block_type( [
 				'name'            => 'custom-block',
-				'title'           => __( 'Custom Block', 'boilerplate' ),
-				'description'     => __( 'Presents a Custom block.', 'boilerplate' ),
+				'title'           => __( 'Custom Block', BOILERPLATE_TEXT_DOMAIN ),
+				'description'     => __( 'Presents a Custom block.', BOILERPLATE_TEXT_DOMAIN ),
 				'render_callback' => [ $this, 'render_custom_block' ],
 				'category'        => 'custom-category',
 				'icon'            => 'editor-help', // Dashicons
@@ -35,7 +37,7 @@ class BoilerplateBlocks {
 			[
 				[
 					'slug' => 'custom-category',
-					'title' => __( 'Custom Blocks', 'boilerplate' ),
+					'title' => __( 'Custom Blocks', BOILERPLATE_TEXT_DOMAIN ),
 					'icon'  => 'heart',
 				],
 			]

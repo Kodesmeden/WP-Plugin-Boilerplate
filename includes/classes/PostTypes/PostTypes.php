@@ -13,26 +13,26 @@ class BoilerplatePostTypes {
 			'menu_name'             => $plural,
 			'single_name'         => $single,
 			'name_admin_bar'        => $single,
-			'add_new'               => _x( 'Add New', $post_type, 'boilerplate' ),
-			'add_new_item'          => sprintf( __( 'Add New %s', 'boilerplate' ), $single ),
-			'new_item'              => sprintf( __( 'New %s', 'boilerplate' ), $single ),
-			'edit_item'             => sprintf( __( 'Edit %s', 'boilerplate' ), $single ),
-			'view_item'             => sprintf( __( 'View %s', 'boilerplate' ), $single ),
-			'all_items'             => sprintf( __( 'All %s', 'boilerplate' ), $plural ),
-			'search_items'          => sprintf( __( 'Search %s', 'boilerplate' ), $plural ),
-			'parent_item_colon'     => sprintf( __( 'Parent %s:', 'boilerplate' ), $single ),
-			'not_found'             => sprintf( __( 'No %s found.', 'boilerplate' ), strtolower( $plural ) ),
-			'not_found_in_trash'    => sprintf( __( 'No %s found in Trash.', 'boilerplate' ), strtolower( $plural ) ),
-			'featured_image'        => sprintf( _x( '%s Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'boilerplate' ), $single ),
-			'set_featured_image'    => sprintf( _x( 'Set %s image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', 'boilerplate' ), strtolower( $single ) ),
-			'remove_featured_image' => sprintf( _x( 'Remove %s image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', 'boilerplate' ), strtolower( $single ) ),
-			'use_featured_image'    => sprintf( _x( 'Use as %s image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', 'boilerplate' ), strtolower( $single ) ),
-			'archives'              => sprintf( _x( '%s archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'boilerplate' ), $single ),
-			'insert_into_item'      => sprintf( _x( 'Insert into %s', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'boilerplate' ), strtolower( $single ) ),
-			'uploaded_to_this_item' => sprintf( _x( 'Uploaded to this %s', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'boilerplate' ), strtolower( $single ) ),
-			'filter_items_list'     => sprintf( _x( 'Filter %s list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'boilerplate' ), strtolower( $plural ) ),
-			'items_list_navigation' => sprintf( _x( '%s list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'boilerplate' ), $plural ),
-			'items_list'            => sprintf( _x( '%s list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'boilerplate' ), $plural ),
+			'add_new'               => _x( 'Add New', $post_type, BOILERPLATE_TEXT_DOMAIN ),
+			'add_new_item'          => sprintf( __( 'Add New %s', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'new_item'              => sprintf( __( 'New %s', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'edit_item'             => sprintf( __( 'Edit %s', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'view_item'             => sprintf( __( 'View %s', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'all_items'             => sprintf( __( 'All %s', BOILERPLATE_TEXT_DOMAIN ), $plural ),
+			'search_items'          => sprintf( __( 'Search %s', BOILERPLATE_TEXT_DOMAIN ), $plural ),
+			'parent_item_colon'     => sprintf( __( 'Parent %s:', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'not_found'             => sprintf( __( 'No %s found.', BOILERPLATE_TEXT_DOMAIN ), strtolower( $plural ) ),
+			'not_found_in_trash'    => sprintf( __( 'No %s found in Trash.', BOILERPLATE_TEXT_DOMAIN ), strtolower( $plural ) ),
+			'featured_image'        => sprintf( _x( '%s Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'set_featured_image'    => sprintf( _x( 'Set %s image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', BOILERPLATE_TEXT_DOMAIN ), strtolower( $single ) ),
+			'remove_featured_image' => sprintf( _x( 'Remove %s image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', BOILERPLATE_TEXT_DOMAIN ), strtolower( $single ) ),
+			'use_featured_image'    => sprintf( _x( 'Use as %s image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', BOILERPLATE_TEXT_DOMAIN ), strtolower( $single ) ),
+			'archives'              => sprintf( _x( '%s archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', BOILERPLATE_TEXT_DOMAIN ), $single ),
+			'insert_into_item'      => sprintf( _x( 'Insert into %s', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', BOILERPLATE_TEXT_DOMAIN ), strtolower( $single ) ),
+			'uploaded_to_this_item' => sprintf( _x( 'Uploaded to this %s', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', BOILERPLATE_TEXT_DOMAIN ), strtolower( $single ) ),
+			'filter_items_list'     => sprintf( _x( 'Filter %s list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', BOILERPLATE_TEXT_DOMAIN ), strtolower( $plural ) ),
+			'items_list_navigation' => sprintf( _x( '%s list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', BOILERPLATE_TEXT_DOMAIN ), $plural ),
+			'items_list'            => sprintf( _x( '%s list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', BOILERPLATE_TEXT_DOMAIN ), $plural ),
 		];
 	 
 		$args = [
@@ -75,7 +75,7 @@ class BoilerplatePostTypes {
 
 		// Here you can can change the title placeholder, for specific post types
 		if ( $screen->post_type == 'ticket' ) {
-			$title = __( 'Ticket name', 'boilerplate' );
+			$title = __( 'Ticket name', BOILERPLATE_TEXT_DOMAIN );
 		}
 
 		return $title;
